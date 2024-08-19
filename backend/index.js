@@ -1,7 +1,7 @@
 const connectToMongo = require("./db");
 const express = require("express");
 
-//connecting with database 
+//connecting with database
 connectToMongo();
 const app = express();
 const port = 5000;

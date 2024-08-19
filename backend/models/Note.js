@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
-const NotesSchema = new Schema({
+const NotesSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user", // referencing user model from the User.js , model name is defined as "user"
+  },
   title: {
     type: String,
     required: true,
