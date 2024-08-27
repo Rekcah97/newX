@@ -32,14 +32,15 @@ const AddNote = (props) => {
               <div className="container">
                 <form>
                   {/* title and icons */}
-                  <div className="modal-header border-0">
-                    <div className="mb-3">
-                      <h3 className="modal-title mx-1 border-bottom pb-3">Add a New Note</h3>
+                  <div className="modal-header  flex-column border-0">
+                    <div className="w-100 border-bottom ">
+                      <h3 className="modal-title mx-1  pb-3">Add a New Note</h3>
                       {/* title */}
-
-                      <input type="text" placeholder="Your title here" className="editmode form-control border-0 fs-1 pt-2" id="title" name="title" aria-describedby="emailHelp" onChange={onChange} style={{ fontWeight: "bold" }} value={note.title} autocomplete="false" required />
+                    </div>
+                    <div className="w-100 border-bottom">
+                      <input type="text" placeholder="Your title here" className="editmode form-control border-0 fs-1 pt-2" id="title" name="title" aria-describedby="emailHelp" onChange={onChange} style={{ fontWeight: "bold" }} value={note.title} autoComplete="false" required />
                       {/* Close button */}
-                      <div className="icons border-bottom">
+                      <div className="icons d-flex mb-2">
                         <button type="button" className="btn " data-bs-dismiss="modal" ref={refClose}>
                           <i className="fa-solid fa-x" data-bs-dismiss="modal" ref={refClose}></i>
                         </button>
@@ -47,16 +48,13 @@ const AddNote = (props) => {
                         <button disabled={note.title.length < 5 || note.description.length < 5} type="button" className="btn " onClick={handleAdd}>
                           <i className="fa-solid fa-floppy-disk"></i>
                         </button>
+                        <input type="text" placeholder="Tags.." className="form-control border-0 editmode" id="tag" name="tag" value={note.tag} onChange={onChange} autoComplete="false" required />
+                        {/* tag */}
                       </div>
                     </div>
                   </div>
-                  <div className="modal-body">
-                    <div className="mb-3 ">
-                      {/* tag part */}
-
-                      <input type="text" placeholder="Tags.." className="form-control border-0 editmode" id="tag" name="tag" value={note.tag} onChange={onChange} autocomplete="false" required />
-                    </div>
-                    <div className="mb-3 border-top pt-3">
+                  <div className="modal-body ">
+                    <div className="mb-3 pt-3 ">
                       {/* description part */}
 
                       <textarea placeholder="Your text here..." type="text" className="form-control border-0 editmode asize" id="description" value={note.description} name="description" onChange={onChange} />

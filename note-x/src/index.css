@@ -111,3 +111,19 @@ a {
   justify-content: center;
   align-items: center;
 }
+.logout {
+  background-color: #212529;
+  border: none;
+}
+.link {
+  border: none;
+  background: none;
+  padding: none;
+  margin: none;
+  color: blue;
+  text-decoration: underline;
+}
+.link:disabled {
+  cursor: not-allowed;
+  color: grey;
+}

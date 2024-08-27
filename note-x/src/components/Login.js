@@ -13,12 +13,13 @@ const Login = (props) => {
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify({ email: Credential.email, password: Credential.password }),
+      body: JSON.stringify({ email: Credential.email.toLowerCase(), password: Credential.password }),
     });
     const json = await response.json();
     console.log(json.success, json.auth);
     if (json.success) {
       localStorage.setItem("token", json.auth);
+      localStorage.setItem("name", json.name);
       history.push("/");
       showAlert("Succesfully logged in", "success");
     } else {

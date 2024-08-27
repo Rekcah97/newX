@@ -6,6 +6,11 @@ const Noteitem = (props) => {
   const context = useContext(noteContext);
   const { deleteNote } = context;
 
+  const handleDelete = () => {
+    deleteNote(note._id);
+
+    showAlert("Note Deleted successfully", "success");
+  };
   return (
     <>
       <div className="col-md-3 my-3  ">
@@ -17,13 +22,7 @@ const Noteitem = (props) => {
             </h6>
 
             <p className="card-text">{note.description} </p>
-            <i
-              className="fa-solid fa-trash "
-              onClick={() => {
-                deleteNote(note._id);
-                showAlert("Note delteted successfully", "success");
-              }}
-            ></i>
+            <i className="fa-solid fa-trash " onClick={handleDelete}></i>
             <i
               className="fa-regular fa-pen-to-square mx-3"
               onClick={() => {

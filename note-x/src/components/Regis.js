@@ -13,14 +13,18 @@ const Regis = (props) => {
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify({ name, email, password }),
+      body: JSON.stringify({ name, email: email.toLowerCase(), password }),
     });
     const json = await response.json();
     console.log(json);
     if (conpassword === password)
       if (json.success) {
         localStorage.setItem("token", json.auth);
-        history.push("/");
+        localStorage.setItem("name", Credential.name);
+        localStorage.setItem("userId", json.userId);
+        localStorage.setItem("userEmail", json.userEmail);
+
+        history.push("/verifyemail");
         showAlert("Your Account was created Successfully", "success");
       } else {
         showAlert("user with this email already exists.", "danger");

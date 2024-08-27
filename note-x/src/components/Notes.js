@@ -2,8 +2,15 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import noteContext from "../context/notes/noteContext";
 import Noteitem from "./Noteitem";
 import AddNote from "./AddNote";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const Notes = (props) => {
+  const getName = (word) => {
+    const name = word.split(" ");
+    const lower = name[0].toLowerCase();
+    return lower.charAt(0).toUpperCase() + lower.slice(1);
+  };
+  let history = useHistory();
   const { showAlert } = props;
   // defining and importing context and note
   const context = useContext(noteContext);
@@ -12,7 +19,20 @@ const Notes = (props) => {
 
   // using it as component did mount
   useEffect(() => {
-    getAllNote();
+    if (localStorage.getItem("token")) {
+      if (localStorage.getItem("verifiedStatus")) {
+        getAllNote();
+      } else {
+        history.push("/verifyemail");
+        showAlert("Email not verified", "danger");
+        localStorage.removeItem("verifiedStatus");
+      }
+    } else {
+      history.push("/login");
+      showAlert("User not logged in", "danger");
+      localStorage.removeItem("name");
+    }
+
     // eslint-disable-next-line
   }, []);
 
@@ -60,13 +80,13 @@ const Notes = (props) => {
               <div className="container">
                 <form>
                   {/* title and icons */}
-                  <div className="modal-header border-0">
-                    <div className="mb-3">
+                  <div className="modal-header  flex-column border-0">
+                    <div className="w-100 border-bottom">
                       {/* title */}
 
-                      <input type="text" placeholder="Your title here" className="editmode form-control border-0 fs-1" id="etitle" name="etitle" aria-describedby="emailHelp" onChange={onChange} value={note.etitle} style={{ fontWeight: "bold" }} required />
+                      <input type="text" placeholder="Your title here" className="editmode form-control border-0 fs-1" id="etitle" name="etitle" aria-describedby="emailHelp" onChange={onChange} value={note.etitle} style={{ fontWeight: "bold" }} autoComplete="false" required />
                       {/* Close button */}
-                      <div className="icons border-bottom">
+                      <div className="icons d-flex mb-1">
                         <button type="button" className="btn " data-bs-dismiss="modal" ref={refClose}>
                           <i className="fa-solid fa-x" data-bs-dismiss="modal" ref={refClose}></i>
                         </button>
@@ -78,22 +98,16 @@ const Notes = (props) => {
                         <button type="button" className="btn" onClick={onDelete}>
                           <i className="fa-solid fa-trash "></i>
                         </button>
+                        <input type="text" className="form-control border-0 editmode" id="etag" name="etag" onChange={onChange} value={note.etag} autoComplete="false" />
                       </div>
                     </div>
                   </div>
                   <div className="modal-body">
-                    <div className="mb-3">
+                    <div className="mb-3 pt-3">
                       {/* description part */}
 
                       <textarea type="text" className="form-control border-0 editmode asize" id="edescription" name="edescription" onChange={onChange} value={note.edescription} required />
                     </div>
-                    {/* <div className="mb-3">
-                       tag part
-                      <label htmlFor="etag" className="form-label editmode">
-                        Tag
-                      </label>
-                      <input type="text" className="form-control border-0 editmode" id="etag" name="etag" onChange={onChange} value={note.etag} />
-                    </div>*/}
                   </div>
                 </form>
               </div>
@@ -103,9 +117,10 @@ const Notes = (props) => {
       </div>
 
       {/* here is the code that is helping us to display all notes */}
+
       <div className="note-cards">
         <div className="container my-3">
-          <h3>Your notes</h3>
+          <h3 className="mx-1">{localStorage.getItem("name") ? getName(localStorage.getItem("name")) : ""}'s notes</h3>
           <div className="row my-3">
             <div className="emptynote mx-1">
               <h2 style={{ color: "#696969" }}>{notes.length === 0 && "No Notes To be Found !!!!"}</h2>

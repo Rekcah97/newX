@@ -19,7 +19,12 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  verified: {
+    type: Boolean,
+    default: false, // Default value for new users
+  },
 });
-const user = mongoose.model("user", UserSchema);
 
-module.exports = user;
+const User = mongoose.model("User", UserSchema);
+
+module.exports = User;
